@@ -38,3 +38,8 @@ build_boost_1_64_0_b2_vs2017_win32_x64.bat
 2. Add compiled libraries
 	- Go to Solution Explorer -> Properties -> Linker -> General
 	- Pick & Set on "Additional Library Directories" = BOOST_ROOT\lib (eg. C:\boost_1_64_0\stage_x86\lib)
+
+
+# Method 2
+1. bootstrap
+2. b2 toolset=msvc-14.1 threading=multi link=static runtime-link=shared runtime-link=static variant=release variant=debug
