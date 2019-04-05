@@ -43,3 +43,48 @@ build_boost_1_64_0_b2_vs2017_win32_x64.bat
 # Method 2
 1. bootstrap
 2. b2 toolset=msvc-14.1 threading=multi link=static runtime-link=shared runtime-link=static variant=release variant=debug
+
+
+vs2019
+
+1. START > Visual Studio 2019 > x64 Native Tools Command Prompt 
+2. cd  D:\boost.win 
+3. .\bootstrap.bat 
+4. Edit generated project-config.jam and replace 
+
+using msvc ; 
+with 
+using msvc : 14.1 : "C:\\Program Files (x86)\\Microsoft Visual 
+Studio\\2019\\Preview\\VC\\Tools\\MSVC\\14.20.27323\\bin\\HostX64\\x64\\cl.exe" 
+; 
+
+5. Before you fire b2, you can remove -nologo from this line in 
+D:\boost.win\tools\build\src\tools\msvc.jam 
+
+https://github.com/boostorg/build/blob/20d72776c8b61613f0e3b32d01b17f9ee013db0d/src/tools/msvc.jam#L1488
+
+6. Finally, run b2 
+
+.\b2 variant=debug address-model=64 --with-filesystem --with-test 
+--layout=system 
+
+... 
+compile-c-c++ bin.v2\libs\filesystem\build\msvc-14.1\debug\address-model-64\link-static\threading-multi\codecvt_error_category.obj 
+Microsoft (R) C/C++ Optimizing Compiler Version 19.20.27323 for x64 
+Copyright (C) Microsoft Corporation.  All rights reserved. 
+
+cl "libs\filesystem\src\codecvt_error_category.cpp" 
+-Fo"bin.v2\libs\filesystem\build\msvc-14.1\debug\address-model-64\link-static\threading-multi\codecvt_error_category.obj" 
+   -TP /Z7 /Od /Ob0 /W3 /GR /MDd /Zc:forScope /Zc:wchar_t /favor:blend 
+/wd4675 /EHs -c 
+   -DBOOST_ALL_NO_LIB=1 
+   -DBOOST_FILESYSTEM_STATIC_LINK=1 
+   "-I." 
+
+and you should see the CL 19.20.27323 from VS2019 is actually used, that is: 
+
+
+D:\boost.win>cl /? | findstr optimized 
+Microsoft (R) C/C++ Optimizing Compiler Version 19.20.27323 for x64 
+Copyright (C) Microsoft Corporation.  All rights reserved. 
+
