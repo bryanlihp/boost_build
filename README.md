@@ -46,7 +46,15 @@ build_boost_1_64_0_b2_vs2017_win32_x64.bat
 
 
 vs2019
+1. bootstrap
+2. build:
+	32 and 64: b2 release debug threading=multi --build-type=complete --toolset=msvc stage 
+	32 only  : b2 release debug threading=multi --build-type=complete --toolset=msvc address-model=32 stage
+	64 only  : b2 release debug threading=multi --build-type=complete --toolset=msvc address-model=64 stage
 
+
+
+-- for ref only
 1. START > Visual Studio 2019 > x64 Native Tools Command Prompt 
 2. cd  D:\boost.win 
 3. .\bootstrap.bat 
@@ -65,8 +73,9 @@ https://github.com/boostorg/build/blob/20d72776c8b61613f0e3b32d01b17f9ee013db0d/
 
 6. Finally, run b2 
 
-.\b2 variant=debug address-model=64 --with-filesystem --with-test 
---layout=system 
+
+
+.\b2 variant=debug address-model=64 --with-filesystem --with-test --layout=system 
 
 ... 
 compile-c-c++ bin.v2\libs\filesystem\build\msvc-14.1\debug\address-model-64\link-static\threading-multi\codecvt_error_category.obj 
@@ -87,4 +96,5 @@ and you should see the CL 19.20.27323 from VS2019 is actually used, that is:
 D:\boost.win>cl /? | findstr optimized 
 Microsoft (R) C/C++ Optimizing Compiler Version 19.20.27323 for x64 
 Copyright (C) Microsoft Corporation.  All rights reserved. 
+
 
